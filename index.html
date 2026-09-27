@@ -4,25 +4,109 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Hammaad Sattar</title>
+  <meta name="description" content="Hammaad Sattar — NYU student and intern at FOMO.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
   <style>
-    :root { --bg: #fafafa; --fg: #111; --muted: #666; }
-    @media (prefers-color-scheme: dark) { :root { --bg: #111; --fg: #f2f2f2; --muted: #999; } }
-    * { box-sizing: border-box; margin: 0; }
-    body {
-      min-height: 100vh; display: grid; place-items: center; padding: 16px;
-      background: var(--bg); color: var(--fg);
-      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    :root {
+      --bg: #0b0d12;
+      --card: #141821;
+      --border: #232938;
+      --fg: #eef1f6;
+      --muted: #9aa3b5;
+      --accent: #7c5cff;
+      --accent-2: #22d3a6;
     }
-    main { text-align: center; }
-    h1 { font-size: clamp(2rem, 6vw, 3.5rem); letter-spacing: -0.02em; }
-    p { margin-top: 12px; color: var(--muted); font-size: 1.1rem; }
-    a { color: inherit; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(600px 400px at 85% -10%, rgba(124, 92, 255, .25), transparent 70%),
+        radial-gradient(500px 400px at -10% 110%, rgba(34, 211, 166, .15), transparent 70%),
+        var(--bg);
+      color: var(--fg);
+      font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      line-height: 1.6;
+      display: flex;
+      flex-direction: column;
+    }
+    .wrap { width: 100%; max-width: 760px; margin: 0 auto; padding: 0 20px; }
+
+    header { padding: 28px 0; }
+    header .wrap { display: flex; justify-content: space-between; align-items: center; }
+    .logo { font-weight: 800; letter-spacing: -0.02em; font-size: 1.1rem; }
+    .logo span { color: var(--accent); }
+
+    .hero { padding: 72px 0 48px; }
+    .badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 12px; border: 1px solid var(--border); border-radius: 999px;
+      background: rgba(20, 24, 33, .7); color: var(--muted); font-size: .85rem;
+    }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent-2); box-shadow: 0 0 10px var(--accent-2); }
+    h1 {
+      margin-top: 22px;
+      font-size: clamp(2.6rem, 9vw, 4.5rem);
+      font-weight: 800; letter-spacing: -0.035em; line-height: 1.05;
+    }
+    .grad {
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .lead { margin-top: 18px; font-size: 1.2rem; color: var(--muted); max-width: 34ch; }
+
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; padding-bottom: 72px; }
+    .card {
+      background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 22px;
+      transition: transform .2s ease, border-color .2s ease;
+    }
+    .card:hover { transform: translateY(-3px); border-color: var(--accent); }
+    .label { font-size: .75rem; text-transform: uppercase; letter-spacing: .12em; color: var(--muted); }
+    .value { margin-top: 6px; font-size: 1.25rem; font-weight: 700; }
+    .sub { margin-top: 4px; color: var(--muted); font-size: .95rem; }
+
+    footer { margin-top: auto; padding: 28px 0; border-top: 1px solid var(--border); color: var(--muted); font-size: .9rem; }
+    footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+    a { color: var(--fg); text-decoration: none; border-bottom: 1px solid var(--border); }
+    a:hover { border-color: var(--accent); }
   </style>
 </head>
 <body>
-  <main>
-    <h1>Hammaad Sattar</h1>
-    <p>Site coming soon · <a href="https://github.com/Hsattar123">GitHub</a></p>
+  <header>
+    <div class="wrap">
+      <div class="logo">HS<span>.</span></div>
+      <a href="https://github.com/Hsattar123">GitHub</a>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <div class="badge"><span class="dot"></span> Currently interning at FOMO</div>
+      <h1>Hi, I'm <span class="grad">Hammaad Sattar</span></h1>
+      <p class="lead">NYU student and intern at FOMO, a crypto trading platform.</p>
+    </section>
+
+    <section class="cards">
+      <div class="card">
+        <div class="label">Role</div>
+        <div class="value">Intern</div>
+        <div class="sub">FOMO · Crypto trading</div>
+      </div>
+      <div class="card">
+        <div class="label">Education</div>
+        <div class="value">NYU</div>
+        <div class="sub">New York University</div>
+      </div>
+    </section>
   </main>
+
+  <footer>
+    <div class="wrap">
+      <span>© 2026 Hammaad Sattar</span>
+      <span>Personal site. Not affiliated with or operated by FOMO.</span>
+    </div>
+  </footer>
 </body>
 </html>
