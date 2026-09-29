@@ -1,200 +1,946 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>fomo intern desk</title>
-  <meta name="description" content="The fomo intern desk: team schedules, coverage and reimbursements for the fomo intern team. Built by Hammaad Sattar.">
-  <meta name="robots" content="noindex">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg: #0a091e;
-      --surface: #14132f;
-      --line: #26254d;
-      --line-2: #37366e;
-      --ink: #eef0fd;
-      --muted: #a0a2cf;
-      --dim: #6e70a3;
-      --accent: #9895f5;
-      --gain: #4fe3a4;
-      --amber: #ffc861;
-      --grad: linear-gradient(180deg, #6b6bb0 0%, #3a3f90 45%, #151132 100%);
-      --sans: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
-      --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
-      color-scheme: dark;
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0; color: var(--ink); font: 16px/1.6 var(--sans);
-      background: radial-gradient(1100px 560px at 50% -200px, rgba(107, 107, 176, .42), transparent 70%), var(--bg);
-    }
-    .wrap { max-width: 1120px; margin: 0 auto; padding-inline: 20px; }
-    a { color: var(--accent); }
-    :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
-    h1, h2, h3 { margin: 0; letter-spacing: -0.03em; text-wrap: balance; }
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="The fomo intern desk: team schedules, coverage and reimbursements for the fomo intern team.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="fomo-mark.png">
+<title>fomo intern desk</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  /* Deliberately single-theme: a dark trading-terminal look. */
+  :root {
+    color-scheme: dark;
+    /* fomo brand: deep navy logo tile, lavender-to-indigo gradient, soft white mark */
+    --bg: #0a091e;
+    --bg-2: #0e0d27;
+    --surface: #14132f;
+    --surface-2: #1c1b3e;
+    --line: #26254d;
+    --line-2: #37366e;
+    --ink: #eef0fd;
+    --muted: #a0a2cf;
+    --dim: #6e70a3;
+    --up: #9895f5;            /* brand accent (periwinkle) */
+    --up-soft: rgba(152, 149, 245, .14);
+    --gain: #4fe3a4;          /* price-up green, only for ▲ changes */
+    --down: #ff7285;
+    --down-soft: rgba(255, 114, 133, .13);
+    --amber: #ffc861;
+    --amber-soft: rgba(255, 200, 97, .12);
+    --violet: #7fcaff;        /* remote shifts */
+    --violet-soft: rgba(127, 202, 255, .12);
+    --grad: linear-gradient(180deg, #6b6bb0 0%, #3a3f90 45%, #151132 100%);
+    --display: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --body: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  }
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  .me-bar, .mgr { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; border: 1px solid var(--line); background: var(--bg-2); border-radius: 14px; padding: 10px 14px; }
+  .me-bar label, .mgr label { font-weight: 700; font-size: .9rem; color: var(--ink); }
+  .me-bar input, .mgr input { width: auto; flex: 1 1 220px; max-width: 320px; }
+  .mgr { border-color: var(--up); }
+  html, body { background: var(--bg); }
+  body {
+    color: var(--ink); font: 15px/1.5 var(--body); margin: 0;
+    background:
+      radial-gradient(1100px 520px at 50% -180px, rgba(107, 107, 176, .38), transparent 70%),
+      var(--bg);
+    min-height: 100%;
+  }
+  .wrap { max-width: 1200px; margin: 0 auto; padding-inline: 16px; }
+  h1, h2, h3 { margin: 0; text-wrap: balance; }
+  h2 { font-family: var(--display); font-weight: 700; font-size: 1.02rem; letter-spacing: -0.01em; }
+  .mono, .num { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+  button, input, select, textarea { font: inherit; color: inherit; }
+  :focus-visible { outline: 2px solid var(--up); outline-offset: 2px; }
+  a { color: var(--up); }
 
-    header { padding-block: 22px; }
-    header .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
-    .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--ink); }
-    .tile { width: 42px; height: 42px; border-radius: 11px; background: var(--bg); border: 1px solid var(--line-2); display: grid; place-items: center; }
-    .tile img { width: 30px; height: auto; display: block; }
-    .brand b { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.045em; }
-    .brand span { color: var(--muted); font-weight: 600; font-size: .95rem; }
-    .back { color: var(--muted); text-decoration: none; font-size: .92rem; }
-    .back:hover { color: var(--ink); }
+  /* ticker tape */
+  .tape { border-bottom: 1px solid var(--line); background: var(--bg-2); overflow: hidden; white-space: nowrap; font-family: var(--mono); font-size: .78rem; }
+  .tape-track { display: inline-flex; gap: 32px; padding: 7px 0; padding-left: 16px; }
+  .tape-track span { display: inline-flex; gap: 8px; color: var(--muted); }
+  .tape-track b { color: var(--ink); font-weight: 500; }
+  .tape-track .up { color: var(--gain); } .tape-track .down { color: var(--down); } .tape-track .flat { color: var(--dim); }
+  @media (prefers-reduced-motion: no-preference) {
+    .tape-track.moving { animation: tape 60s linear infinite; }
+    .tape:hover .tape-track { animation-play-state: paused; }
+    @keyframes tape { to { transform: translateX(-50%); } }
+  }
 
-    .hero { padding-block: 40px 28px; display: grid; gap: 18px; justify-items: start; }
-    .eyebrow { font-family: var(--mono); font-size: .8rem; letter-spacing: .04em; color: var(--accent); }
-    .hero h1 { font-size: clamp(2.2rem, 6.5vw, 4rem); font-weight: 800; line-height: 1.02; letter-spacing: -0.05em; max-width: 16ch; }
-    .hero p { margin: 0; color: var(--muted); font-size: 1.1rem; max-width: 58ch; }
-    .cta { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 6px; }
-    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; border-radius: 12px; font-weight: 700; text-decoration: none; border: 1px solid var(--line-2); color: var(--ink); background: var(--surface); }
-    .btn.primary { background: var(--ink); color: var(--bg); border-color: var(--ink); }
-    .btn:hover { filter: brightness(1.08); }
-    .note { font-size: .88rem; color: var(--dim); margin: 0; }
+  /* header */
+  header.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: rgba(10, 9, 30, .82); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+  .top .wrap { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 22px; padding-block: 12px; }
+  .brand { display: flex; align-items: center; gap: 12px; margin-right: auto; }
+  .logo-tile { width: 42px; height: 42px; border-radius: 11px; background: var(--bg); border: 1px solid var(--line-2); display: grid; place-items: center; flex: none; }
+  .logo-tile img { width: 30px; height: auto; display: block; }
+  .wordmark { font-family: var(--display); font-weight: 800; font-size: 1.6rem; letter-spacing: -0.045em; line-height: 1; color: var(--ink); }
+  .brand .sub { display: grid; line-height: 1.15; }
+  .brand .sub strong { font-family: var(--display); font-weight: 700; font-size: .8rem; letter-spacing: -0.01em; }
+  .live { display: inline-flex; align-items: center; gap: 6px; font-family: var(--mono); font-size: .7rem; color: var(--gain); }
+  .live::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--gain); box-shadow: 0 0 0 0 rgba(79, 227, 164, .6); }
+  .live.off { color: var(--dim); } .live.off::before { background: var(--dim); }
+  @media (prefers-reduced-motion: no-preference) { .live:not(.off)::before { animation: ping 2s infinite; } @keyframes ping { 70% { box-shadow: 0 0 0 7px rgba(79, 227, 164, 0); } 100% { box-shadow: 0 0 0 0 rgba(79, 227, 164, 0); } } }
+  nav.tabs { display: flex; gap: 2px; background: var(--bg-2); border: 1px solid var(--line); border-radius: 12px; padding: 3px; overflow-x: auto; max-width: 100%; }
+  nav.tabs button { border: 0; background: none; padding: 7px 14px; border-radius: 9px; cursor: pointer; color: var(--muted); font-weight: 500; white-space: nowrap; }
+  nav.tabs button:hover { color: var(--ink); }
+  nav.tabs button[aria-selected="true"] { background: var(--surface-2); color: var(--ink); box-shadow: inset 0 0 0 1px var(--line-2); }
+  .who { display: flex; align-items: center; gap: 8px; font-size: .88rem; color: var(--muted); }
+  .who img { width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--line-2); }
+  .role { font-family: var(--mono); font-size: .66rem; letter-spacing: .1em; padding: 2px 7px; border-radius: 6px; background: var(--violet-soft); color: var(--violet); }
 
-    .shot { border-radius: 16px; border: 1px solid var(--line-2); overflow: hidden; background: var(--surface); box-shadow: 0 30px 80px rgba(0, 0, 0, .45); }
-    .shot img { display: block; width: 100%; height: auto; }
-    .frame { padding: 10px; border-radius: 22px; background: var(--grad); }
-    .frame .shot { border-color: rgba(233, 237, 253, .12); }
+  main { padding-block: 22px 60px; display: grid; gap: 16px; }
+  .hero { border-radius: 20px; background: var(--grad); padding: 26px 24px; display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px; border: 1px solid rgba(233, 237, 253, .12); position: relative; overflow: hidden; }
+  .hero::after { content: ""; position: absolute; right: -40px; top: -30px; width: 260px; height: 170px; background: url("fomo-mark.png") no-repeat center / contain; opacity: .09; pointer-events: none; }
+  .hero h1 { font-family: var(--display); font-weight: 800; font-size: clamp(1.6rem, 4.6vw, 2.6rem); letter-spacing: -0.045em; line-height: 1.05; color: #eef0fd; }
+  .hero p { margin: 8px 0 0; color: rgba(238, 240, 253, .78); max-width: 46ch; }
+  .hero .cta { display: flex; gap: 8px; flex-wrap: wrap; position: relative; z-index: 1; }
+  .hero .btn { background: rgba(10, 9, 30, .35); border-color: rgba(233, 237, 253, .25); color: #eef0fd; }
+  .hero .btn.primary { background: #eef0fd; color: #0a091e; border-color: #eef0fd; }
+  section[data-panel] { display: grid; gap: 16px; }
+  section[data-panel][hidden] { display: none; }
+  .banner { border: 1px dashed var(--line-2); background: var(--bg-2); color: var(--muted); border-radius: 12px; padding: 10px 14px; font-size: .9rem; }
+  .banner strong { color: var(--amber); font-weight: 500; }
 
-    .stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-block: 36px 8px; }
-    .stat { border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; background: var(--surface); }
-    .stat b { display: block; font-family: var(--mono); font-size: 1.3rem; font-weight: 500; }
-    .stat span { color: var(--muted); font-size: .88rem; }
-    @media (max-width: 760px) { .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .panel { background: linear-gradient(180deg, var(--surface), var(--bg-2)); border: 1px solid var(--line); border-radius: 16px; padding: 16px; display: grid; gap: 14px; min-width: 0; align-content: start; }
+  .panel-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; }
+  .kicker { font-family: var(--mono); font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; color: var(--dim); }
+  .muted { color: var(--muted); } .small { font-size: .84rem; }
 
-    section.feature { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 36px; align-items: center; padding-block: 48px; border-top: 1px solid var(--line); }
-    section.feature.flip { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
-    section.feature.flip .copy { order: 2; }
-    @media (max-width: 860px) { section.feature, section.feature.flip { grid-template-columns: minmax(0, 1fr); gap: 20px; } section.feature.flip .copy { order: 0; } }
-    .copy h2 { font-size: clamp(1.5rem, 3.4vw, 2.1rem); font-weight: 800; }
-    .copy p { color: var(--muted); margin: 12px 0 0; }
-    .copy ul { margin: 16px 0 0; padding: 0; list-style: none; display: grid; gap: 10px; }
-    .copy li { padding-left: 26px; position: relative; }
-    .copy li::before { content: ""; position: absolute; left: 4px; top: .6em; width: 9px; height: 9px; border-radius: 3px; background: var(--accent); }
-    .stack { display: grid; gap: 14px; }
+  /* announcement */
+  .gm { display: grid; grid-template-columns: auto 1fr auto; gap: 14px; align-items: start; border: 1px solid var(--line-2); border-radius: 16px; padding: 14px 16px; background: linear-gradient(90deg, var(--violet-soft), transparent 70%); }
+  .gm .tag { font-family: var(--mono); font-size: .7rem; letter-spacing: .12em; color: var(--violet); border: 1px solid var(--violet); border-radius: 6px; padding: 2px 7px; margin-top: 2px; }
+  .gm p { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+  .gm .meta { font-size: .78rem; color: var(--dim); margin-top: 4px; }
+  .gm textarea { width: 100%; min-height: 70px; resize: vertical; background: var(--bg); border: 1px solid var(--line-2); border-radius: 10px; padding: 8px 10px; }
+  @media (max-width: 560px) { .gm { grid-template-columns: 1fr; } }
 
-    .access { border: 1px solid var(--line-2); border-radius: 20px; padding: 28px; margin-block: 48px; background: linear-gradient(135deg, rgba(152, 149, 245, .12), transparent 60%), var(--surface); display: grid; gap: 18px; }
-    .access h2 { font-size: 1.6rem; font-weight: 800; }
-    .steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
-    @media (max-width: 760px) { .steps { grid-template-columns: minmax(0, 1fr); } }
-    .step { border: 1px solid var(--line); border-radius: 14px; padding: 16px; background: var(--bg); }
-    .step .n { font-family: var(--mono); color: var(--accent); font-size: .8rem; }
-    .step h3 { font-size: 1.05rem; margin-top: 4px; letter-spacing: -0.02em; }
-    .step p { margin: 6px 0 0; color: var(--muted); font-size: .93rem; }
+  /* tiles */
+  .tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+  @media (max-width: 900px) { .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .tile { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 14px 16px; display: grid; gap: 4px; align-content: start; position: relative; overflow: hidden; }
+  .tile .label { font-family: var(--mono); font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; color: var(--dim); }
+  .tile .value { font-family: var(--mono); font-size: clamp(1.4rem, 3.4vw, 2rem); font-weight: 500; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+  .tile .sub { font-size: .84rem; color: var(--muted); overflow-wrap: anywhere; }
+  .tile.up .value { color: var(--ink); } .tile.amber .value { color: var(--amber); } .tile.violet .value { color: var(--violet); }
+  .spark { display: block; width: 100%; height: 34px; margin-top: 6px; }
+  .chg { font-family: var(--mono); font-size: .78rem; }
+  .chg.up { color: var(--gain); } .chg.down { color: var(--down); } .chg.flat { color: var(--dim); }
 
-    footer { border-top: 1px solid var(--line); padding-block: 26px 40px; color: var(--dim); font-size: .88rem; }
-    footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
-  </style>
+  .two { display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr); gap: 16px; }
+  @media (max-width: 900px) { .two { grid-template-columns: minmax(0, 1fr); } }
+
+  /* today timeline */
+  .tl { display: grid; gap: 8px; }
+  .tl-row { display: grid; grid-template-columns: 110px 1fr; gap: 10px; align-items: center; }
+  .tl-name { font-weight: 500; font-size: .88rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .tl-track { position: relative; height: 26px; background: repeating-linear-gradient(90deg, var(--line) 0 1px, transparent 1px calc(100% / var(--cols))); border-radius: 6px; background-color: var(--bg); }
+  .tl-bar { position: absolute; top: 3px; bottom: 3px; border-radius: 5px; background: var(--up-soft); border: 1px solid var(--up); color: var(--up); font-family: var(--mono); font-size: .68rem; padding: 0 6px; display: flex; align-items: center; overflow: hidden; white-space: nowrap; }
+  .tl-bar.remote { border-style: dashed; background: var(--violet-soft); border-color: var(--violet); color: var(--violet); }
+  .tl-axis { display: grid; grid-template-columns: 110px 1fr; gap: 10px; }
+  .tl-axis div:last-child { display: flex; justify-content: space-between; font-family: var(--mono); font-size: .66rem; color: var(--dim); }
+  .tl-now { position: absolute; top: -4px; bottom: -4px; width: 2px; background: var(--amber); border-radius: 2px; box-shadow: 0 0 10px var(--amber); }
+  .tl-wrap { position: relative; }
+  .tl-scroll { overflow-x: auto; }
+  .tl-inner { min-width: 520px; display: grid; gap: 8px; }
+
+  /* leaderboard */
+  .lb { display: grid; gap: 6px; }
+  .lb-row { display: grid; grid-template-columns: 22px minmax(0, 1fr) auto auto; gap: 10px; align-items: center; padding: 8px 10px; border-radius: 10px; background: var(--bg); border: 1px solid var(--line); }
+  .lb-rank { font-family: var(--mono); color: var(--dim); font-size: .8rem; }
+  .lb-sym { font-family: var(--mono); font-weight: 700; font-size: .85rem; }
+  .lb-name { font-size: .78rem; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .lb-bar { height: 3px; border-radius: 3px; background: var(--up); margin-top: 4px; opacity: .7; }
+  .lb-hrs { font-family: var(--mono); font-size: .9rem; }
+
+  /* week grid */
+  .scroll { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; }
+  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-family: var(--mono); font-size: .66rem; text-transform: uppercase; letter-spacing: .1em; color: var(--dim); font-weight: 500; white-space: nowrap; }
+  .grid { min-width: 820px; table-layout: fixed; }
+  .grid th:first-child, .grid td:first-child { width: 150px; }
+  .grid th .d { display: block; font-size: .78rem; letter-spacing: 0; color: var(--muted); text-transform: none; }
+  .grid .today { background: rgba(152, 149, 245, .07); }
+  .grid th.today .d { color: var(--up); }
+  .person { font-weight: 500; overflow-wrap: anywhere; }
+  .person .sym { display: block; font-family: var(--mono); font-size: .72rem; color: var(--up); font-weight: 700; }
+  .person .hrs { display: block; font-weight: 400; font-size: .75rem; color: var(--dim); font-family: var(--mono); }
+  .shift { display: block; font-family: var(--mono); font-size: .72rem; padding: 3px 6px; border-radius: 6px; background: var(--up-soft); color: var(--up); border: 1px solid transparent; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .shift.remote { background: var(--violet-soft); color: var(--violet); border: 1px dashed var(--violet); }
+  .legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: .78rem; color: var(--muted); }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .legend i { width: 14px; height: 10px; border-radius: 3px; background: var(--up-soft); border: 1px solid var(--up); }
+  .legend i.r { background: var(--violet-soft); border: 1px dashed var(--violet); }
+  .legend i.n { background: var(--amber); border: 0; width: 3px; }
+
+  /* heatmap */
+  .heat { display: grid; grid-template-columns: 44px repeat(7, minmax(34px, 1fr)); gap: 3px; min-width: 360px; }
+  .heat .h { font-family: var(--mono); font-size: .66rem; color: var(--dim); display: flex; align-items: center; justify-content: flex-end; padding-right: 6px; }
+  .heat .c { height: 22px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: .66rem; background: var(--bg); color: var(--bg); }
+  .heat .col { text-align: center; font-family: var(--mono); font-size: .66rem; color: var(--dim); padding-bottom: 2px; }
+  .heat .col.today { color: var(--up); }
+
+  .weeknav { display: flex; align-items: center; gap: 6px; }
+  .btn { border: 1px solid var(--line-2); background: var(--surface-2); border-radius: 9px; padding: 7px 13px; cursor: pointer; }
+  .btn:hover { border-color: var(--muted); }
+  .btn.primary { background: var(--up); color: #0a091e; border-color: var(--up); font-weight: 700; }
+  .btn.primary:hover { filter: brightness(1.08); }
+  .btn.sm { padding: 3px 10px; font-size: .8rem; }
+  .btn.ok { color: var(--gain); } .btn.no { color: var(--down); }
+  .btn.ghost { background: none; }
+  .btn:disabled { opacity: .45; cursor: not-allowed; }
+
+  .pill { display: inline-block; font-family: var(--mono); font-size: .7rem; font-weight: 500; padding: 2px 8px; border-radius: 6px; white-space: nowrap; letter-spacing: .04em; }
+  .pill.pending { background: var(--amber-soft); color: var(--amber); }
+  .pill.approved { background: rgba(79, 227, 164, .12); color: var(--gain); }
+  .pill.rejected { background: var(--down-soft); color: var(--down); }
+  td.amt, th.amt { text-align: right; }
+  td.amt { font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .actions { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+
+  /* forms */
+  .split { display: grid; grid-template-columns: minmax(0, 380px) minmax(0, 1fr); gap: 16px; align-items: start; }
+  @media (max-width: 900px) { .split { grid-template-columns: minmax(0, 1fr); } }
+  form { display: grid; gap: 12px; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  label, .fl { display: grid; gap: 5px; font-size: .8rem; color: var(--muted); font-weight: 500; }
+  input, select { background: var(--bg); border: 1px solid var(--line-2); border-radius: 9px; padding: 9px 11px; width: 100%; min-width: 0; }
+  input:focus, select:focus, textarea:focus { border-color: var(--up); outline: none; }
+  .days { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+  .days button { border: 1px solid var(--line-2); background: var(--bg); color: var(--muted); border-radius: 8px; padding: 7px 0; cursor: pointer; font-family: var(--mono); font-size: .74rem; }
+  .days button[aria-pressed="true"] { background: var(--up-soft); color: var(--up); border-color: var(--up); }
+  .hint { font-size: .78rem; color: var(--dim); margin: 0; }
+  .preview { font-family: var(--mono); font-size: .78rem; color: var(--up); }
+  .empty { color: var(--muted); padding: 10px 0; margin: 0; }
+  .list { display: grid; gap: 8px; }
+  .item { display: flex; align-items: center; gap: 12px; justify-content: space-between; padding: 10px 12px; border: 1px solid var(--line); border-radius: 12px; background: var(--bg); }
+  .item.remote { border-style: dashed; }
+  .item .when { font-family: var(--mono); font-size: .85rem; }
+  .item .what { font-size: .82rem; color: var(--muted); overflow-wrap: anywhere; }
+  .item .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--up); flex: none; }
+  .item.remote .dot { background: var(--violet); }
+  .item-l { display: flex; gap: 12px; align-items: center; min-width: 0; }
+
+  .toast { position: fixed; left: 50%; bottom: calc(18px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: var(--surface-2); color: var(--ink); border: 1px solid var(--up); padding: 10px 16px; border-radius: 12px; font-size: .9rem; max-width: calc(100% - 32px); z-index: 10; box-shadow: 0 10px 30px rgba(0, 0, 0, .5); }
+  @media (prefers-reduced-motion: no-preference) { .toast { animation: rise .2s ease-out; } @keyframes rise { from { transform: translate(-50%, 8px); opacity: 0; } } }
+</style>
 </head>
 <body>
-  <header>
-    <div class="wrap">
-      <a class="brand" href="/" aria-label="Back to hammaadsattar.com">
-        <span class="tile"><img src="fomo-mark.png" alt=""></span>
-        <b>fomo</b><span>intern desk</span>
-      </a>
-      <a class="back" href="/">← hammaadsattar.com</a>
-    </div>
-  </header>
 
-  <main class="wrap">
-    <section class="hero">
-      <span class="eyebrow">Built for the fomo intern team</span>
+
+<div class="tape" aria-label="Team stats ticker"><div class="tape-track" id="tape"></div></div>
+
+<header class="top">
+  <div class="wrap">
+    <div class="brand">
+      <span class="logo-tile"><img src="fomo-mark.png" alt=""></span>
+      <span class="wordmark">fomo</span>
+      <span class="sub"><strong>intern desk</strong><span class="live off" id="live">CONNECTING</span></span>
+    </div>
+    <nav class="tabs" role="tablist" aria-label="Sections">
+      <button role="tab" data-tab="dash" aria-selected="true">Dash</button>
+      <button role="tab" data-tab="schedule" aria-selected="false">My schedule</button>
+      <button role="tab" data-tab="expenses" aria-selected="false">Reimbursements</button>
+    </nav>
+    <div class="who" id="who"></div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="hero">
+    <div>
       <h1>an intern desk for the rest of us</h1>
-      <p>One place for every intern's schedule, live office coverage and reimbursement requests, with approvals and exports for the intern manager. Designed and built by Hammaad Sattar.</p>
-      <div class="cta">
-        <a class="btn primary" href="https://claude.ai/artifact/YJJ2GNT1wstZJho5kPwLz5">Open the live desk →</a>
-        <a class="btn" href="#access">How to get access</a>
+      <p id="heroSub">Shifts, coverage and reimbursements for the fomo intern team, all in one place.</p>
+    </div>
+    <div class="cta">
+      <button class="btn primary" data-goto="schedule">Add my shifts</button>
+      <button class="btn" data-goto="expenses">Get reimbursed</button>
+    </div>
+  </div>
+  <div class="me-bar">
+    <label for="myName">Your name</label>
+    <input id="myName" name="myName" autocomplete="name" placeholder="e.g. Hammaad Sattar" maxlength="40">
+    <span class="hint">Tags your shifts and requests. Saved on this device only.</span>
+  </div>
+  <form class="mgr" id="mgrForm" hidden>
+    <label for="mgrCode">Manager code</label>
+    <input id="mgrCode" type="password" autocomplete="current-password" placeholder="Enter the manager code">
+    <button class="btn sm primary" type="submit">Unlock</button>
+    <button class="btn sm ghost" type="button" id="mgrCancel">Cancel</button>
+    <span class="hint">Unlocks approvals, the pinned note and CSV exports on this device.</span>
+  </form>
+  <div class="banner" id="banner" hidden></div>
+  <div class="gm" id="gm"></div>
+
+  <!-- DASH -->
+  <section data-panel="dash">
+    <div class="tiles" id="tiles"></div>
+
+    <div class="two">
+      <div class="panel">
+        <div class="panel-head">
+          <div><div class="kicker">Live floor</div><h2 id="todayTitle">Today</h2></div>
+          <div class="legend"><span><i></i>In office</span><span><i class="r"></i>Remote</span><span><i class="n"></i>Now</span></div>
+        </div>
+        <div id="timeline"></div>
       </div>
-      <p class="note">The live desk opens in Claude. Sign in with the email address Hammaad invited.</p>
-    </section>
-
-    <div class="frame"><div class="shot"><img src="img/dash-overview.jpg" alt="The dash: ticker, on-shift count, team hours, pending and approved reimbursements, today's timeline and the hours leaderboard" width="1920" height="1350"></div></div>
-
-    <div class="stats">
-      <div class="stat"><b>3 tabs</b><span>Dash, My schedule, Reimbursements</span></div>
-      <div class="stat"><b>Live</b><span>Updates for everyone the moment an intern saves</span></div>
-      <div class="stat"><b>12 wks</b><span>Book repeating shifts up to 12 weeks out</span></div>
-      <div class="stat"><b>.csv</b><span>Schedule and expense exports for payroll</span></div>
+      <div class="panel">
+        <div class="panel-head">
+          <div><div class="kicker">Hours this week vs last</div><h2>Leaderboard</h2></div>
+        </div>
+        <div class="lb" id="leaderboard"></div>
+      </div>
     </div>
 
-    <section class="feature">
-      <div class="copy">
-        <span class="eyebrow">01 · The dash</span>
-        <h2>See the whole team at a glance</h2>
-        <p>The first thing you see is who is working, how many hours the team is putting in, and what money is waiting on a decision.</p>
-        <ul>
-          <li>A trading-style ticker with every intern's weekly hours and change vs last week</li>
-          <li>Today's live floor: a timeline of who's on, with a line for right now</li>
-          <li>A leaderboard of hours this week, up or down on last week</li>
-          <li>A full weekly schedule you can page back and forward through</li>
-        </ul>
+    <div class="panel">
+      <div class="panel-head">
+        <div><div class="kicker">Team schedule</div><h2 id="weekLabel">This week</h2></div>
+        <div class="weeknav">
+          <button class="btn sm" id="prevWeek" aria-label="Previous week">←</button>
+          <button class="btn sm" id="thisWeek">This week</button>
+          <button class="btn sm" id="nextWeek" aria-label="Next week">→</button>
+        </div>
       </div>
-      <div class="shot"><img src="img/dash-week.jpg" alt="Weekly team schedule showing each intern's shifts by day, in office or remote" loading="lazy"></div>
-    </section>
-
-    <section class="feature flip">
-      <div class="copy">
-        <span class="eyebrow">02 · Coverage</span>
-        <h2>Spot the gaps before they happen</h2>
-        <p>A heatmap shows how many interns are on shift for every hour of the week, and calls out weekday hours between 10a and 5p with nobody scheduled.</p>
-      </div>
-      <div class="shot"><img src="img/dash-coverage.jpg" alt="Coverage heatmap of interns on shift per hour for each day of the week" loading="lazy"></div>
-    </section>
-
-    <section class="feature">
-      <div class="copy">
-        <span class="eyebrow">03 · Scheduling</span>
-        <h2>Interns book their own shifts in seconds</h2>
-        <p>Each intern picks their days, hours and whether they're in office or remote, then repeats it for as many weeks as they need.</p>
-        <ul>
-          <li>Pick several days at once and repeat for up to 12 weeks</li>
-          <li>Preview the number of shifts and hours before saving</li>
-          <li>Copy this week's shifts into next week with one tap</li>
-          <li>Duplicate shifts are skipped automatically</li>
-        </ul>
-      </div>
-      <div class="shot"><img src="img/dash-schedule.jpg" alt="The add shifts form with Monday, Wednesday and Friday selected, 10am to 4pm, repeating for 8 weeks" loading="lazy"></div>
-    </section>
-
-    <section class="feature flip">
-      <div class="copy">
-        <span class="eyebrow">04 · Reimbursements</span>
-        <h2>Requests, approvals and exports in one flow</h2>
-        <p>Interns submit what they spent with a receipt link. The desk owner approves or rejects each one, and can export everything as a spreadsheet.</p>
-        <ul>
-          <li>Interns only see their own requests</li>
-          <li>Pending, approved and rejected statuses, with undo</li>
-          <li>One-click CSV export of requests and the full schedule</li>
-          <li>A pinned note for announcements to the whole team</li>
-        </ul>
-      </div>
-      <div class="shot"><img src="img/dash-expenses.jpg" alt="Reimbursement request form next to a table of requests with pending and approved statuses" loading="lazy"></div>
-    </section>
-
-    <section class="access" id="access">
-      <div>
-        <span class="eyebrow">Getting in</span>
-        <h2>How to open the live desk</h2>
-      </div>
-      <div class="steps">
-        <div class="step"><span class="n">Step 1</span><h3>Get an invite</h3><p>Ask Hammaad to add your email to the desk. Managers and interns are invited as Editors so they can save.</p></div>
-        <div class="step"><span class="n">Step 2</span><h3>Sign in to Claude</h3><p>Use the same email the invite went to. A free Claude account works.</p></div>
-        <div class="step"><span class="n">Step 3</span><h3>Open the desk</h3><p>Tap <a href="https://claude.ai/artifact/YJJ2GNT1wstZJho5kPwLz5">Open the live desk</a>. Everything you save shows up for the team instantly.</p></div>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <div class="wrap">
-      <span>Screenshots show example data. Real schedules and requests live only in the private desk.</span>
-      <span>Built by <a href="/">Hammaad Sattar</a> · intern project, not an official fomo product</span>
+      <div class="scroll"><table class="grid" id="grid"></table></div>
     </div>
-  </footer>
+
+    <div class="two">
+      <div class="panel">
+        <div class="panel-head">
+          <div><div class="kicker">Reimbursements</div><h2 id="recentTitle">Latest requests</h2></div>
+          <button class="btn sm" data-goto="expenses">New request</button>
+        </div>
+        <div id="recent"></div>
+      </div>
+      <div class="panel">
+        <div class="panel-head">
+          <div><div class="kicker">Interns on shift per hour</div><h2>Coverage</h2></div>
+        </div>
+        <div class="scroll"><div class="heat" id="heat"></div></div>
+        <p class="hint" id="heatHint"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCHEDULE -->
+  <section data-panel="schedule" hidden>
+    <div class="split">
+      <div class="panel">
+        <div><div class="kicker">Put yourself on the board</div><h2>Add shifts</h2></div>
+        <form id="shiftForm">
+          <label for="shDate">Starting<input id="shDate" name="date" type="date" required></label>
+          <div class="fl" id="daysLabel">Days
+            <div class="days" id="days" role="group" aria-labelledby="daysLabel"></div>
+          </div>
+          <div class="row">
+            <label for="shStart">Start<input id="shStart" name="start" type="time" value="10:00" required></label>
+            <label for="shEnd">End<input id="shEnd" name="end" type="time" value="16:00" required></label>
+          </div>
+          <div class="row">
+            <label for="shMode">Where
+              <select id="shMode" name="mode"><option value="office">In office</option><option value="remote">Remote</option></select>
+            </label>
+            <label for="shWeeks">Repeat
+              <select id="shWeeks" name="weeks">
+                <option value="1">This week only</option><option value="2">2 weeks</option><option value="4">4 weeks</option>
+                <option value="8">8 weeks</option><option value="12">12 weeks</option>
+              </select>
+            </label>
+          </div>
+          <label for="shNote">Note (optional)<input id="shNote" name="note" maxlength="120" placeholder="e.g. Standup at 11, leaving early Fri"></label>
+          <p class="preview" id="shPreview" aria-live="polite"></p>
+          <button class="btn primary" type="submit" id="shSubmit">Add to schedule</button>
+        </form>
+      </div>
+      <div class="panel">
+        <div class="panel-head">
+          <div><div class="kicker">Upcoming</div><h2>Your shifts</h2></div>
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+            <span class="muted small num" id="myHours"></span>
+            <button class="btn sm" id="copyWeek" title="Copies your shifts from this week into next week">Copy this week → next</button>
+          </div>
+        </div>
+        <div class="list" id="myShifts"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPENSES -->
+  <section data-panel="expenses" hidden>
+    <div class="split">
+      <div class="panel">
+        <div><div class="kicker">Get paid back</div><h2>Request a reimbursement</h2></div>
+        <form id="expForm">
+          <div class="row">
+            <label for="exDate">Date spent<input id="exDate" name="date" type="date" required></label>
+            <label for="exAmount">Amount (USD)<input id="exAmount" name="amount" type="number" min="0.01" step="0.01" inputmode="decimal" placeholder="0.00" required></label>
+          </div>
+          <label for="exCat">Category
+            <select id="exCat" name="category">
+              <option>Travel</option><option>Meals</option><option>Software</option>
+              <option>Supplies</option><option>Events</option><option>Marketing</option><option>Other</option>
+            </select>
+          </label>
+          <label for="exDesc">What was it for?<input id="exDesc" name="description" maxlength="160" placeholder="e.g. Uber to the NYU campus event" required></label>
+          <label for="exReceipt">Receipt link (Google Drive, Dropbox…)<input id="exReceipt" name="receipt" type="url" placeholder="https://"></label>
+          <button class="btn primary" type="submit" id="exSubmit">Submit request</button>
+          <p class="hint" id="expPrivacy">Anyone with this page can see requests. Only the intern manager can approve them.</p>
+        </form>
+      </div>
+      <div class="panel">
+        <div class="panel-head">
+          <div><div class="kicker" id="expTotals">&nbsp;</div><h2 id="expTitle">Your requests</h2></div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap" id="exportBox" hidden>
+            <button class="btn sm" id="exportExp">Export requests (.csv)</button>
+            <button class="btn sm" id="exportSched">Export schedule (.csv)</button>
+          </div>
+        </div>
+        <div id="expTable"></div>
+      </div>
+    </div>
+  </section>
+</main>
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script src="vendor/supabase-2.117.2.js"></script>
+<script src="config.js"></script>
+<script>
+(() => {
+  // ---------- helpers ----------
+  const $ = (s) => document.querySelector(s);
+  function h(tag, attrs, ...kids) {
+    const el = document.createElement(tag);
+    for (const [k, v] of Object.entries(attrs || {})) {
+      if (v == null || v === false) continue;
+      if (k === "class") el.className = v;
+      else if (k === "text") el.textContent = v;
+      else if (k === "style") el.setAttribute("style", v);
+      else if (k.startsWith("on")) el.addEventListener(k.slice(2), v);
+      else el.setAttribute(k, v === true ? "" : v);
+    }
+    for (const c of kids.flat()) if (c != null && c !== false) el.append(c instanceof Node ? c : document.createTextNode(String(c)));
+    return el;
+  }
+  const svg = (tag, attrs, ...kids) => { const el = document.createElementNS("http://www.w3.org/2000/svg", tag); for (const [k, v] of Object.entries(attrs || {})) el.setAttribute(k, v); kids.forEach((c) => el.append(c)); return el; };
+  const pad = (n) => String(n).padStart(2, "0");
+  const iso = (d) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+  const parse = (s) => { const [y, m, d] = s.split("-").map(Number); return new Date(y, m - 1, d); };
+  const addDays = (s, n) => { const d = parse(s); d.setDate(d.getDate() + n); return iso(d); };
+  const todayIso = () => iso(new Date());
+  function weekStart(off) { const d = new Date(); d.setHours(0, 0, 0, 0); d.setDate(d.getDate() - ((d.getDay() + 6) % 7) + off * 7); return d; }
+  const weekDays = (off) => { const s = iso(weekStart(off)); return [...Array(7)].map((_, i) => addDays(s, i)); };
+  const dow = (s) => (parse(s).getDay() + 6) % 7; // Mon=0
+  const mins = (t) => { const [a, b] = t.split(":").map(Number); return a * 60 + b; };
+  const hoursOf = (s) => Math.max(0, mins(s.end) - mins(s.start)) / 60;
+  const fmtH = (n) => (Math.round(n * 10) / 10).toFixed(n % 1 ? 1 : 0) + "h";
+  const money = (c) => (c / 100).toLocaleString("en-US", { style: "currency", currency: "USD" });
+  const dayFmt = new Intl.DateTimeFormat("en-US", { weekday: "short", month: "short", day: "numeric" });
+  const shortFmt = new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric" });
+  const DOW = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+  const newId = (p) => p + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+  const safeUrl = (u) => (/^https?:\/\//i.test(u || "") ? u : null);
+  const t12 = (t) => { let [a, b] = t.split(":").map(Number); const ap = a >= 12 ? "p" : "a"; a = a % 12 || 12; return b ? `${a}:${pad(b)}${ap}` : `${a}${ap}`; };
+  const clean = (n) => (n || "").replace(/\s*\(example\)\s*/i, "").trim();
+  const symOf = (n) => "$" + ((clean(n).split(/\s+/)[0] || "").toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 6) || "INTERN");
+
+  let toastT;
+  function toast(msg) { const t = $("#toast"); t.textContent = msg; t.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => (t.hidden = true), 3600); }
+  // ---------- example data (only until real entries exist) ----------
+  function exampleData() {
+    const w = weekDays(0), lw = weekDays(-1);
+    const mk = (days, start, end, mode, pre) => days.map((d, i) => ({ id: pre + i, date: d, start, end, mode }));
+    const t = todayIso();
+    const withToday = (shifts, start, end, mode, id) => (shifts.some((x) => x.date === t) ? shifts : [...shifts, { id, date: t, start, end, mode }]);
+    const ex = {
+      schedules: {
+        ex1: { name: "Maya R. (example)", shifts: [...mk([w[0], w[2], w[4]], "10:00", "16:00", "office", "a"), ...mk([lw[0], lw[2]], "10:00", "16:00", "office", "b")] },
+        ex2: { name: "Jordan P. (example)", shifts: [...mk([w[1], w[3]], "09:30", "13:30", "remote", "c"), ...mk([w[2]], "12:00", "18:00", "office", "d"), ...mk([lw[1], lw[2], lw[3]], "09:30", "15:30", "office", "e")] },
+        ex3: { name: "Sam K. (example)", shifts: [...mk([w[0], w[1], w[2], w[3]], "13:00", "18:00", "office", "f"), ...mk([lw[0], lw[4]], "13:00", "17:00", "remote", "g")] },
+        ex4: { name: "Priya D. (example)", shifts: [...mk([w[2], w[3], w[4]], "11:00", "15:00", "remote", "h"), ...mk([lw[2], lw[3], lw[4]], "11:00", "15:00", "remote", "i")] },
+      },
+      expenses: {
+        ex1: { name: "Maya R. (example)", items: [{ id: "x1", date: w[0], amount: 2340, category: "Travel", description: "Subway + Uber to Brooklyn meetup", submittedAt: w[0] + "T12" }] },
+        ex2: { name: "Jordan P. (example)", items: [{ id: "x2", date: w[1], amount: 1299, category: "Software", description: "Figma plugin for pitch deck", submittedAt: w[1] + "T12" }] },
+        ex3: { name: "Sam K. (example)", items: [{ id: "x3", date: w[2], amount: 4675, category: "Meals", description: "Lunch for intern onboarding", submittedAt: w[2] + "T12" }] },
+        ex4: { name: "Priya D. (example)", items: [{ id: "x4", date: lw[3], amount: 8500, category: "Events", description: "Booth supplies for campus crypto night", submittedAt: lw[3] + "T12" }] },
+      },
+      decisions: { x2: { status: "approved" }, x4: { status: "approved" } },
+      board: { text: "Welcome to the fomo intern desk. Get next week's shifts on the board by Friday, and drop receipts within 7 days of spending.", updatedAt: null },
+    };
+    // make sure the live floor has people on it whatever day it is
+    ex.schedules.ex1.shifts = withToday(ex.schedules.ex1.shifts, "10:00", "16:00", "office", "t1");
+    ex.schedules.ex3.shifts = withToday(ex.schedules.ex3.shifts, "13:00", "18:00", "remote", "t3");
+    ex.schedules.ex4.shifts = withToday(ex.schedules.ex4.shifts, "11:00", "15:00", "office", "t4");
+    return ex;
+  }
+
+  // ---------- state ----------
+  const CFG = window.FOMO_DESK || {};
+  const S = {
+    mode: "connecting", // connecting | live | offline
+    shifts: [], expenses: [], board: null,
+    loaded: false, sb: null,
+    manager: false, code: "",
+    weekOff: 0, editingBoard: false,
+    pickedDays: null, // null = follow the date's weekday
+  };
+  const keyOf = (name) => clean(name).toLowerCase().replace(/\s+/g, " ");
+  const myKey = () => keyOf($("#myName").value || "");
+  // group the flat database rows into the per-person shape the renderers use
+  function grouped() {
+    const schedules = {}, expenses = {};
+    for (const r of S.shifts) {
+      const k = keyOf(r.name);
+      (schedules[k] ||= { name: clean(r.name), shifts: [] }).shifts.push({ id: r.id, date: r.date, start: r.start_time.slice(0, 5), end: r.end_time.slice(0, 5), mode: r.mode, note: r.note });
+    }
+    for (const r of S.expenses) {
+      const k = keyOf(r.name);
+      (expenses[k] ||= { name: clean(r.name), items: [] }).items.push({ id: r.id, date: r.date, amount: r.amount_cents, category: r.category, description: r.description, receipt: r.receipt, submittedAt: r.created_at, status: r.status });
+    }
+    return { schedules, expenses, decisions: {}, board: S.board };
+  }
+  const isExample = () => S.mode !== "live" || (S.loaded && !S.shifts.length && !S.expenses.length);
+  const view = () => (isExample() ? exampleData() : grouped());
+  const canWrite = () => S.mode === "live";
+  const nameOf = (id, v) => { const d = v.schedules[id] || v.expenses[id]; return (d && d.name) || "Intern"; };
+  const statusOf = (v, it) => it.status || (v.decisions[it.id] && v.decisions[it.id].status) || "pending";
+  const mySched = () => (!isExample() && grouped().schedules[myKey()]) || { name: "", shifts: [] };
+  const hrsIn = (shifts, days) => shifts.filter((s) => days.includes(s.date)).reduce((n, s) => n + hoursOf(s), 0);
+  function change(now, prev) {
+    if (!prev && !now) return { cls: "flat", txt: "—" };
+    if (!prev) return { cls: "up", txt: "NEW" };
+    const p = Math.round(((now - prev) / prev) * 100);
+    return p > 0 ? { cls: "up", txt: `▲ ${p}%` } : p < 0 ? { cls: "down", txt: `▼ ${Math.abs(p)}%` } : { cls: "flat", txt: "0%" };
+  }
+  function allItems(v) {
+    const out = [];
+    for (const [uid, doc] of Object.entries(v.expenses)) for (const it of doc.items || []) out.push({ ...it, uid, status: statusOf(v, it) });
+    return out.sort((a, b) => (b.submittedAt || "").localeCompare(a.submittedAt || ""));
+  }
+  function stats(v) {
+    const w = weekDays(0), lw = weekDays(-1), t = todayIso();
+    const people = Object.keys(v.schedules).map((uid) => {
+      const sh = v.schedules[uid].shifts || [];
+      return { uid, name: nameOf(uid, v), sym: symOf(nameOf(uid, v)), now: hrsIn(sh, w), prev: hrsIn(sh, lw), today: sh.filter((s) => s.date === t) };
+    });
+    const perDay = w.map((d) => Object.values(v.schedules).reduce((n, doc) => n + hrsIn(doc.shifts || [], [d]), 0));
+    const items = allItems(v), month = t.slice(0, 7);
+    const pend = items.filter((i) => i.status === "pending"), appr = items.filter((i) => i.status === "approved" && (i.date || "").startsWith(month));
+    const sum = (a) => a.reduce((n, i) => n + (i.amount || 0), 0);
+    const nowM = new Date().getHours() * 60 + new Date().getMinutes();
+    const onNow = people.filter((p) => p.today.some((s) => mins(s.start) <= nowM && nowM < mins(s.end)));
+    return { people, perDay, items, pend, appr, sum, onNow,
+      teamNow: people.reduce((n, p) => n + p.now, 0), teamPrev: people.reduce((n, p) => n + p.prev, 0) };
+  }
+
+  // ---------- rendering ----------
+  function paint() {
+    const v = view(), st = stats(v);
+    renderLive(); renderWho(); renderBanner(); renderBoard(v);
+    renderTape(v, st); renderTiles(v, st); renderTimeline(v, st); renderLeaderboard(st);
+    renderGrid(v); renderHeat(v); renderRecent(v); renderMyShifts(); renderExpenses(v); renderPreview();
+    for (const id of ["#shSubmit", "#exSubmit", "#copyWeek"]) $(id).disabled = !canWrite();
+    $("#exportBox").hidden = !(S.manager && !isExample());
+  }
+  function render() { paint(); }
+
+  function renderLive() {
+    const l = $("#live");
+    const map = { live: ["LIVE", false], connecting: ["CONNECTING", true], offline: ["NOT CONNECTED", true] };
+    const [txt, off] = map[S.mode];
+    l.textContent = txt; l.classList.toggle("off", off);
+  }
+  function renderWho() {
+    const el = $("#who"); el.replaceChildren();
+    const n = clean($("#myName").value);
+    if (n) el.append(h("span", { text: n }));
+    if (S.manager) el.append(h("span", { class: "role", text: "MANAGER" }), h("button", { class: "btn sm ghost", onclick: lockManager }, "Lock"));
+    else if (S.mode === "live") el.append(h("button", { class: "btn sm", onclick: openManager }, "Manager"));
+  }
+  function renderBanner() {
+    const b = $("#banner");
+    let msg = null;
+    if (S.mode === "offline") msg = [h("strong", { text: "Not connected yet. " }), "This desk isn't linked to its database, so nothing can be saved. Everything below is example data."];
+    else if (S.mode === "live" && isExample()) msg = [h("strong", { text: "Example data. " }), "Maya, Jordan, Sam and Priya are placeholders. They disappear as soon as the first real shift or request goes in."];
+    b.hidden = !msg; b.replaceChildren(...(msg || []));
+  }
+
+  function renderBoard(v) {
+    const el = $("#gm");
+    const text = v.board && v.board.text;
+    const ownerLive = S.manager && S.mode === "live";
+    if (S.editingBoard) {
+      if ($("#boardText")) return; // don't wipe what the owner is typing
+      const ta = h("textarea", { id: "boardText", maxlength: "600", "aria-label": "Pinned note" });
+      ta.value = (S.board && S.board.text) || "";
+      el.replaceChildren(
+        h("span", { class: "tag", text: "PINNED" }),
+        h("div", null, ta),
+        h("div", { class: "actions" },
+          h("button", { class: "btn sm primary", onclick: () => saveBoard(ta.value) }, "Post"),
+          h("button", { class: "btn sm ghost", onclick: () => { S.editingBoard = false; paint(); } }, "Cancel")));
+      el.hidden = false; setTimeout(() => ta.focus(), 0);
+      return;
+    }
+    if (!text && !ownerLive) { el.hidden = true; return; }
+    el.hidden = false;
+    const when = v.board && v.board.updatedAt ? "Updated " + dayFmt.format(new Date(v.board.updatedAt)) : isExample() ? "Example note" : "";
+    el.replaceChildren(
+      h("span", { class: "tag", text: "PINNED" }),
+      h("div", null, h("p", { text: text || "No pinned note yet. Post one for the whole intern team." }), when && h("div", { class: "meta", text: when })),
+      ownerLive ? h("button", { class: "btn sm", onclick: () => { S.editingBoard = true; paint(); } }, text && !isExample() ? "Edit" : "Post a note") : h("span"));
+  }
+
+  function renderTape(v, st) {
+    const bits = [];
+    const add = (label, val, chg) => bits.push(h("span", null, label, h("b", { text: val }), chg && h("span", { class: chg.cls, text: chg.txt })));
+    add("ON SHIFT NOW", String(st.onNow.length));
+    add("TEAM HRS/WK", fmtH(st.teamNow), change(st.teamNow, st.teamPrev));
+    for (const p of [...st.people].sort((a, b) => b.now - a.now)) add(p.sym, fmtH(p.now), change(p.now, p.prev));
+    add("PENDING", money(st.sum(st.pend)));
+    add("APPROVED MTD", money(st.sum(st.appr)));
+    const track = $("#tape");
+    const reduced = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+    track.replaceChildren(...bits, ...(reduced ? [] : bits.map((b) => { const c = b.cloneNode(true); c.setAttribute("aria-hidden", "true"); return c; })));
+    track.classList.toggle("moving", !reduced);
+  }
+
+  function sparkline(values, color) {
+    const W = 140, H = 34, max = Math.max(1, ...values), bw = W / values.length;
+    const todayIdx = dow(todayIso());
+    const g = svg("svg", { class: "spark", viewBox: `0 0 ${W} ${H}`, preserveAspectRatio: "none", "aria-hidden": "true" });
+    values.forEach((val, i) => {
+      const bh = Math.max(2, (val / max) * (H - 4));
+      g.append(svg("rect", { x: i * bw + 2, y: H - bh, width: bw - 4, height: bh, rx: 2, fill: color, opacity: i === todayIdx ? 1 : 0.45 }));
+    });
+    return g;
+  }
+  function renderTiles(v, st) {
+    const mine = false;
+    const tile = (cls, label, value, sub, extra) => h("div", { class: "tile " + cls }, h("span", { class: "label", text: label }), h("span", { class: "value", text: value }), sub, extra);
+    const chg = change(st.teamNow, st.teamPrev);
+    $("#tiles").replaceChildren(
+      tile("up", "On shift now", String(st.onNow.length), h("span", { class: "sub", text: st.onNow.length ? st.onNow.map((p) => clean(p.name)).join(", ") : `${st.people.filter((p) => p.today.length).length} scheduled today` })),
+      tile("", "Team hours this week", fmtH(st.teamNow), h("span", { class: "sub" }, h("span", { class: "chg " + chg.cls, text: chg.txt }), " vs last week"), sparkline(st.perDay, "var(--up)")),
+      tile("amber", mine ? "Your pending" : "Pending payouts", money(st.sum(st.pend)), h("span", { class: "sub", text: `${st.pend.length} request${st.pend.length === 1 ? "" : "s"} awaiting review` })),
+      tile("violet", mine ? "Paid back to you (month)" : "Approved this month", money(st.sum(st.appr)), h("span", { class: "sub", text: `${st.appr.length} approved` })),
+    );
+  }
+
+  function renderTimeline(v, st) {
+    const t = todayIso();
+    $("#todayTitle").textContent = "Today · " + dayFmt.format(parse(t));
+    const on = st.people.filter((p) => p.today.length);
+    if (!on.length) { $("#timeline").replaceChildren(h("p", { class: "empty", text: "Nobody is on the schedule today." })); return; }
+    let lo = 8 * 60, hi = 20 * 60;
+    for (const p of on) for (const s of p.today) { lo = Math.min(lo, Math.floor(mins(s.start) / 60) * 60); hi = Math.max(hi, Math.ceil(mins(s.end) / 60) * 60); }
+    const span = hi - lo, cols = span / 60;
+    const nowM = new Date().getHours() * 60 + new Date().getMinutes();
+    const pct = (m) => ((m - lo) / span) * 100;
+    const rows = on.sort((a, b) => Math.min(...a.today.map((s) => mins(s.start))) - Math.min(...b.today.map((s) => mins(s.start)))).map((p) => {
+      const track = h("div", { class: "tl-track", style: `--cols:${cols}` },
+        p.today.map((s) => h("div", { class: "tl-bar" + (s.mode === "remote" ? " remote" : ""), style: `left:${pct(mins(s.start))}%;width:${pct(mins(s.end)) - pct(mins(s.start))}%`, title: `${s.start}–${s.end}${s.note ? " · " + s.note : ""}` }, `${t12(s.start)}–${t12(s.end)}`)));
+      if (nowM >= lo && nowM <= hi) track.append(h("div", { class: "tl-now", style: `left:calc(${pct(nowM)}% - 1px)` }));
+      return h("div", { class: "tl-row" }, h("div", { class: "tl-name", text: clean(p.name) }), track);
+    });
+    const ticks = [...Array(cols + 1)].map((_, i) => i % 2 === 0 || cols <= 8 ? t12(pad((lo / 60) + i) + ":00") : "");
+    $("#timeline").replaceChildren(h("div", { class: "tl-scroll" }, h("div", { class: "tl-inner" }, rows, h("div", { class: "tl-axis" }, h("div"), h("div", null, ticks.map((x) => h("span", { text: x })))))));
+  }
+
+  function renderLeaderboard(st) {
+    const ranked = [...st.people].sort((a, b) => b.now - a.now);
+    if (!ranked.length) { $("#leaderboard").replaceChildren(h("p", { class: "empty", text: "No hours logged yet this week." })); return; }
+    const max = Math.max(1, ...ranked.map((p) => p.now));
+    $("#leaderboard").replaceChildren(...ranked.map((p, i) => {
+      const c = change(p.now, p.prev);
+      return h("div", { class: "lb-row" },
+        h("span", { class: "lb-rank", text: String(i + 1) }),
+        h("div", { style: "min-width:0" }, h("div", { class: "lb-sym", text: p.sym }), h("div", { class: "lb-name", text: clean(p.name) }), h("div", { class: "lb-bar", style: `width:${(p.now / max) * 100}%` })),
+        h("span", { class: "lb-hrs", text: fmtH(p.now) }),
+        h("span", { class: "chg " + c.cls, text: c.txt }));
+    }));
+  }
+
+  function renderGrid(v) {
+    const days = weekDays(S.weekOff), t = todayIso();
+    const lbl = `${shortFmt.format(parse(days[0]))} – ${shortFmt.format(parse(days[6]))}`;
+    $("#weekLabel").textContent = S.weekOff === 0 ? `This week · ${lbl}` : S.weekOff === 1 ? `Next week · ${lbl}` : S.weekOff === -1 ? `Last week · ${lbl}` : `Week of ${lbl}`;
+    const head = h("tr", null, h("th", { text: "Intern" }), days.map((d, i) => h("th", { class: d === t ? "today" : null }, DOW[i], h("span", { class: "d", text: shortFmt.format(parse(d)) }))));
+    const uids = Object.keys(v.schedules).sort((a, b) => nameOf(a, v).localeCompare(nameOf(b, v)));
+    const rows = uids.map((uid) => {
+      const sh = (v.schedules[uid].shifts || []).filter((s) => days.includes(s.date));
+      const n = nameOf(uid, v);
+      return h("tr", null,
+        h("td", { class: "person" }, h("span", { class: "sym", text: symOf(n) }), clean(n), h("span", { class: "hrs", text: fmtH(sh.reduce((a, s) => a + hoursOf(s), 0)) })),
+        days.map((d) => h("td", { class: d === t ? "today" : null },
+          sh.filter((s) => s.date === d).sort((a, b) => a.start.localeCompare(b.start))
+            .map((s) => h("span", { class: "shift" + (s.mode === "remote" ? " remote" : ""), title: (s.mode === "remote" ? "Remote" : "In office") + (s.note ? " · " + s.note : "") }, `${t12(s.start)}–${t12(s.end)}`)))));
+    });
+    const body = rows.length ? rows : [h("tr", null, h("td", { colspan: "8", class: "empty", text: "No shifts yet. Add yours under My schedule." }))];
+    $("#grid").replaceChildren(h("thead", null, head), h("tbody", null, body));
+  }
+
+  function renderHeat(v) {
+    const days = weekDays(S.weekOff), t = todayIso();
+    const all = Object.values(v.schedules).flatMap((d) => (d.shifts || []).filter((s) => days.includes(s.date)).map((s) => ({ ...s, owner: d })));
+    let lo = 9, hi = 18;
+    for (const s of all) { lo = Math.min(lo, Math.floor(mins(s.start) / 60)); hi = Math.max(hi, Math.ceil(mins(s.end) / 60)); }
+    const count = (d, hr) => new Set(all.filter((s) => s.date === d && mins(s.start) < (hr + 1) * 60 && mins(s.end) > hr * 60).map((s) => s.owner)).size;
+    const grid = [];
+    let max = 1;
+    for (let hr = lo; hr < hi; hr++) for (const d of days) max = Math.max(max, count(d, hr));
+    grid.push(h("div"), ...days.map((d, i) => h("div", { class: "col" + (d === t ? " today" : ""), text: DOW[i] })));
+    let gaps = 0;
+    for (let hr = lo; hr < hi; hr++) {
+      grid.push(h("div", { class: "h", text: t12(pad(hr) + ":00") }));
+      for (const d of days) {
+        const c = count(d, hr);
+        if (!c && dow(d) < 5 && hr >= 10 && hr < 17) gaps++;
+        const a = c ? 0.18 + 0.82 * (c / max) : 0;
+        grid.push(h("div", { class: "c", title: `${DOW[dow(d)]} ${t12(pad(hr) + ":00")}: ${c} on shift`, style: c ? `background:rgba(152,149,245,${a.toFixed(2)});color:${a > 0.55 ? "#0a091e" : "var(--ink)"}` : null, text: c ? String(c) : "" }));
+      }
+    }
+    $("#heat").replaceChildren(...grid);
+    $("#heatHint").textContent = all.length ? (gaps ? `${gaps} weekday hour${gaps === 1 ? "" : "s"} between 10a and 5p have nobody scheduled.` : "Every weekday hour from 10a to 5p has someone on.") : "Nothing scheduled this week yet.";
+  }
+
+  const statusPill = (s) => h("span", { class: "pill " + s, text: s.toUpperCase() });
+  function expenseTable(items, v, { showWho, allowDecide, allowDelete, compact }) {
+    if (!items.length) return h("p", { class: "empty", text: "No requests yet." });
+    const hasActs = allowDecide || allowDelete;
+    const head = h("tr", null, h("th", { text: "Date" }), showWho && h("th", { text: "Intern" }), h("th", { text: "Details" }), h("th", { class: "amt", text: "Amount" }), h("th", { text: "Status" }), hasActs && h("th", { text: "" }));
+    const rows = items.map((it) => {
+      const url = safeUrl(it.receipt);
+      const acts = [];
+      if (allowDecide) {
+        if (it.status === "pending") acts.push(h("button", { class: "btn sm ok", onclick: () => decide(it.id, "approved") }, "Approve"), h("button", { class: "btn sm no", onclick: () => decide(it.id, "rejected") }, "Reject"));
+        else acts.push(h("button", { class: "btn sm ghost", onclick: () => decide(it.id, null) }, "Undo"));
+      }
+      if (allowDelete && it.uid === myKey() && it.status === "pending") acts.push(h("button", { class: "btn sm ghost", onclick: () => removeExpense(it.id) }, "Withdraw"));
+      return h("tr", null,
+        h("td", { class: "num small", text: it.date ? shortFmt.format(parse(it.date)) : "" }),
+        showWho && h("td", { class: "small", text: clean(nameOf(it.uid, v)) }),
+        h("td", null, h("div", { text: it.description || "" }), !compact && h("div", { class: "muted small" }, it.category || "", url ? [" · ", h("a", { href: url, target: "_blank", rel: "noopener noreferrer", text: "Receipt ↗" })] : " · No receipt")),
+        h("td", { class: "amt", text: money(it.amount || 0) }),
+        h("td", null, statusPill(it.status)),
+        hasActs && h("td", null, h("div", { class: "actions" }, acts)));
+    });
+    return h("div", { class: "scroll" }, h("table", null, h("thead", null, head), h("tbody", null, rows)));
+  }
+  function renderRecent(v) {
+    $("#recentTitle").textContent = "Latest requests";
+    $("#recent").replaceChildren(expenseTable(allItems(v).slice(0, 5), v, { showWho: true, allowDecide: S.manager && !isExample(), allowDelete: false, compact: true }));
+  }
+  function renderExpenses(v) {
+    const items = allItems(v);
+    $("#expTitle").textContent = "All requests";
+    const pend = items.filter((i) => i.status === "pending").reduce((n, i) => n + i.amount, 0);
+    $("#expTotals").textContent = items.length ? `${money(pend)} pending · ${items.length} total` : "Reimbursements";
+    $("#expTable").replaceChildren(expenseTable(items, v, { showWho: true, allowDecide: S.manager && !isExample(), allowDelete: canWrite() && !isExample() }));
+  }
+
+  function renderMyShifts() {
+    const t = todayIso();
+    const up = (mySched().shifts || []).filter((s) => s.date >= t).sort((a, b) => (a.date + a.start).localeCompare(b.date + b.start));
+    $("#myHours").textContent = up.length ? `${up.length} shift${up.length === 1 ? "" : "s"} · ${fmtH(up.reduce((n, s) => n + hoursOf(s), 0))}` : "";
+    if (!up.length) { $("#myShifts").replaceChildren(h("p", { class: "empty", text: !canWrite() ? "Your shifts will show here once the desk is connected." : myKey() ? "Nothing booked yet. Pick your days on the left and hit Add to schedule." : "Type your name at the top to see your shifts." })); return; }
+    $("#myShifts").replaceChildren(...up.map((s) => h("div", { class: "item" + (s.mode === "remote" ? " remote" : "") },
+      h("div", { class: "item-l" }, h("span", { class: "dot" }),
+        h("div", { style: "min-width:0" },
+          h("div", { class: "when", text: `${dayFmt.format(parse(s.date))} · ${t12(s.start)}–${t12(s.end)} · ${fmtH(hoursOf(s))}` }),
+          h("div", { class: "what", text: (s.mode === "remote" ? "Remote" : "In office") + (s.note ? " · " + s.note : "") }))),
+      h("button", { class: "btn sm ghost", disabled: !canWrite(), onclick: () => removeShift(s.id) }, "Remove"))));
+  }
+
+  // ---------- schedule form: day chips + repeat ----------
+  function pickedDays() { return S.pickedDays || new Set([dow($("#shDate").value || todayIso())]); }
+  function renderDays() {
+    const set = pickedDays();
+    $("#days").replaceChildren(...DOW.map((d, i) => h("button", { type: "button", "aria-pressed": String(set.has(i)), onclick: () => {
+      const next = new Set(pickedDays());
+      next.has(i) ? next.delete(i) : next.add(i);
+      S.pickedDays = next; renderDays(); renderPreview();
+    } }, d)));
+  }
+  function plannedShifts() {
+    const f = $("#shiftForm");
+    const start = f.date.value, days = [...pickedDays()], weeks = Number(f.weeks.value) || 1;
+    if (!start || !days.length) return [];
+    const mon = addDays(start, -dow(start));
+    const out = [];
+    for (let w = 0; w < weeks; w++) for (const d of days.sort()) {
+      const date = addDays(mon, w * 7 + d);
+      if (date >= start) out.push(date);
+    }
+    return out;
+  }
+  function renderPreview() {
+    const f = $("#shiftForm"), dates = plannedShifts();
+    const ok = f.start.value && f.end.value && mins(f.end.value) > mins(f.start.value);
+    $("#shPreview").textContent = !dates.length ? "Pick at least one day." : !ok ? "End time needs to be after start." :
+      `→ ${dates.length} shift${dates.length === 1 ? "" : "s"}, ${fmtH(dates.length * hoursOf({ start: f.start.value, end: f.end.value }))} total, first on ${dayFmt.format(parse(dates[0]))}`;
+  }
+  ["date", "start", "end", "weeks"].forEach((n) => $("#shiftForm")[n].addEventListener("input", () => { if (n === "date" && S.pickedDays && S.pickedDays.size <= 1) S.pickedDays = null; renderDays(); renderPreview(); }));
+
+  // ---------- writes ----------
+  const myName = () => clean($("#myName").value);
+  const key = (s) => `${s.date}|${s.start}|${s.end}`;
+  function dbError(e) {
+    const m = (e && e.message) || "";
+    if (/Wrong manager code/i.test(m)) return "That manager code isn't right. Unlock again.";
+    if (/check constraint|violates/i.test(m)) return "Some of those details aren't valid. Check the form and try again.";
+    return "Couldn't save. Check your connection and try again.";
+  }
+  async function run(q) {
+    const { error } = await q;
+    if (error) toast(dbError(error));
+    await refresh();
+    return !error;
+  }
+  const toRow = (s) => ({ name: myName(), date: s.date, start_time: s.start, end_time: s.end, mode: s.mode, note: s.note || "" });
+  const addShifts = (list) => run(S.sb.from("shifts").insert(list.map(toRow)));
+  function removeShift(id) { S.shifts = S.shifts.filter((r) => r.id !== id); paint(); toast("Shift removed"); run(S.sb.from("shifts").delete().eq("id", id)); }
+  function removeExpense(id) { S.expenses = S.expenses.filter((r) => r.id !== id); paint(); toast("Request withdrawn"); run(S.sb.from("expenses").delete().eq("id", id)); }
+  function decide(id, status) {
+    const st = status || "pending";
+    S.expenses = S.expenses.map((r) => (r.id === id ? { ...r, status: st } : r)); paint();
+    toast(status ? `Marked ${status}` : "Moved back to pending");
+    run(S.sb.rpc("decide_expense", { p_code: S.code, p_id: id, p_status: st }));
+  }
+  function saveBoard(text) {
+    const body = text.trim().slice(0, 600);
+    S.board = { text: body, updatedAt: new Date().toISOString() }; S.editingBoard = false; paint();
+    toast("Note posted");
+    run(S.sb.rpc("post_note", { p_code: S.code, p_text: body }));
+  }
+
+  $("#shiftForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const f = e.target;
+    if (!myName()) { toast("Type your name at the top first."); $("#myName").focus(); return; }
+    if (mins(f.end.value) <= mins(f.start.value)) { toast("End time needs to be after the start time."); return; }
+    const dates = plannedShifts();
+    if (!dates.length) { toast("Pick at least one day."); return; }
+    const have = new Set((mySched().shifts || []).map(key));
+    const fresh = dates.map((date) => ({ id: newId("s"), date, start: f.start.value, end: f.end.value, mode: f.mode.value, note: f.note.value.trim() })).filter((s) => !have.has(key(s)));
+    if (!fresh.length) { toast("Those shifts are already on your schedule."); return; }
+    addShifts(fresh);
+    f.note.value = "";
+    toast(`Added ${fresh.length} shift${fresh.length === 1 ? "" : "s"}`);
+  });
+  $("#copyWeek").addEventListener("click", () => {
+    const w = weekDays(0);
+    const have = new Set((mySched().shifts || []).map(key));
+    const fresh = (mySched().shifts || []).filter((s) => w.includes(s.date)).map((s) => ({ ...s, id: newId("s"), date: addDays(s.date, 7) })).filter((s) => !have.has(key(s)));
+    if (!fresh.length) { toast("Nothing to copy. Add this week's shifts first."); return; }
+    addShifts(fresh);
+    toast(`Copied ${fresh.length} shift${fresh.length === 1 ? "" : "s"} into next week`);
+  });
+  $("#myName").addEventListener("input", () => { try { localStorage.setItem("fomo-name", myName()); } catch {} paint(); });
+  $("#expForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const f = e.target;
+    if (!myName()) { toast("Type your name at the top first."); $("#myName").focus(); return; }
+    const cents = Math.round(parseFloat(f.amount.value) * 100);
+    if (!(cents > 0)) { toast("Enter an amount above $0."); return; }
+    const receipt = f.receipt.value.trim();
+    if (receipt && !safeUrl(receipt)) { toast("Receipt link should start with https://"); return; }
+    run(S.sb.from("expenses").insert({ name: myName(), date: f.date.value, amount_cents: cents, category: f.category.value, description: f.description.value.trim(), receipt }));
+    f.amount.value = ""; f.description.value = ""; f.receipt.value = "";
+    toast(`Submitted ${money(cents)} for review`);
+  });
+
+  // ---------- manager exports ----------
+  const csv = (rows) => rows.map((r) => r.map((c) => { const s = String(c ?? ""); return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s; }).join(",")).join("\n");
+  function save(filename, data) {
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([data], { type: "text/csv" }));
+    a.download = filename;
+    document.body.append(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+  }
+  $("#exportExp").addEventListener("click", () => {
+    const v = view();
+    save(`fomo-reimbursements-${todayIso()}.csv`, csv([["Submitted", "Date spent", "Intern", "Category", "Description", "Amount (USD)", "Status", "Receipt"],
+      ...allItems(v).map((i) => [(i.submittedAt || "").slice(0, 10), i.date, clean(nameOf(i.uid, v)), i.category, i.description, (i.amount / 100).toFixed(2), i.status, i.receipt || ""])]));
+  });
+  $("#exportSched").addEventListener("click", () => {
+    const v = view();
+    const rows = Object.entries(v.schedules).flatMap(([uid, d]) => (d.shifts || []).map((s) => [s.date, clean(nameOf(uid, v)), s.start, s.end, hoursOf(s).toFixed(2), s.mode === "remote" ? "Remote" : "In office", s.note || ""]));
+    rows.sort((a, b) => (a[0] + a[2]).localeCompare(b[0] + b[2]));
+    save(`fomo-schedule-${todayIso()}.csv`, csv([["Date", "Intern", "Start", "End", "Hours", "Where", "Note"], ...rows]));
+  });
+
+  // ---------- tabs & nav ----------
+  function setTab(tab) {
+    document.querySelectorAll("nav.tabs button").forEach((b) => b.setAttribute("aria-selected", String(b.dataset.tab === tab)));
+    document.querySelectorAll("[data-panel]").forEach((p) => (p.hidden = p.dataset.panel !== tab));
+    try { localStorage.setItem("fomo-tab", tab); } catch {}
+  }
+  document.querySelectorAll("nav.tabs button").forEach((b) => b.addEventListener("click", () => setTab(b.dataset.tab)));
+  document.querySelectorAll("[data-goto]").forEach((b) => b.addEventListener("click", () => setTab(b.dataset.goto)));
+  $("#prevWeek").addEventListener("click", () => { S.weekOff--; paint(); });
+  $("#nextWeek").addEventListener("click", () => { S.weekOff++; paint(); });
+  $("#thisWeek").addEventListener("click", () => { S.weekOff = 0; paint(); });
+
+  $("#shDate").value = todayIso();
+  $("#exDate").value = todayIso();
+  renderDays();
+  const hashTab = (location.hash || "").slice(1);
+  if (["dash", "schedule", "expenses"].includes(hashTab)) setTab(hashTab);
+  else { try { const t = localStorage.getItem("fomo-tab"); if (t && document.querySelector(`[data-panel="${t}"]`)) setTab(t); } catch {} }
+  setInterval(() => paint(), 60000); // keep the "now" line and on-shift count current
+
+  // ---------- manager unlock ----------
+  function openManager() { $("#mgrForm").hidden = false; $("#mgrCode").value = ""; $("#mgrCode").focus(); }
+  function lockManager() { S.manager = false; S.code = ""; try { sessionStorage.removeItem("fomo-code"); } catch {} paint(); }
+  $("#mgrCancel").addEventListener("click", () => { $("#mgrForm").hidden = true; });
+  $("#mgrForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const code = $("#mgrCode").value;
+    const { data, error } = await S.sb.rpc("check_manager_code", { p_code: code });
+    if (error || !data) { toast("That manager code isn't right."); return; }
+    S.manager = true; S.code = code; $("#mgrForm").hidden = true;
+    try { sessionStorage.setItem("fomo-code", code); } catch {}
+    toast("Manager tools unlocked"); paint();
+  });
+
+  // ---------- boot ----------
+  async function refresh() {
+    if (!S.sb) return;
+    const [sh, ex, bd] = await Promise.all([
+      S.sb.from("shifts").select("*").gte("date", addDays(todayIso(), -56)).order("date").limit(5000),
+      S.sb.from("expenses").select("*").order("created_at", { ascending: false }).limit(1000),
+      S.sb.from("board").select("*").eq("id", 1).maybeSingle(),
+    ]);
+    if (sh.error || ex.error) { if (!S.loaded) { S.mode = "offline"; paint(); } return; }
+    S.shifts = sh.data || []; S.expenses = ex.data || [];
+    if (!S.editingBoard) S.board = bd.data && bd.data.text ? { text: bd.data.text, updatedAt: bd.data.updated_at } : null;
+    S.loaded = true; S.mode = "live"; paint();
+  }
+  let refreshT;
+  const refreshSoon = () => { clearTimeout(refreshT); refreshT = setTimeout(refresh, 400); };
+  async function boot() {
+    try { $("#myName").value = localStorage.getItem("fomo-name") || ""; } catch {}
+    paint();
+    if (!CFG.supabaseUrl || !CFG.supabaseKey || !window.supabase) { S.mode = "offline"; paint(); return; }
+    S.sb = window.supabase.createClient(CFG.supabaseUrl, CFG.supabaseKey, { auth: { persistSession: false } });
+    await refresh();
+    S.sb.channel("desk").on("postgres_changes", { event: "*", schema: "public" }, refreshSoon).subscribe();
+    setInterval(refresh, 60000);
+    try {
+      const c = sessionStorage.getItem("fomo-code");
+      if (c) { const { data } = await S.sb.rpc("check_manager_code", { p_code: c }); if (data) { S.manager = true; S.code = c; paint(); } }
+    } catch {}
+  }
+  boot();
+})();
+</script>
+
 </body>
 </html>
