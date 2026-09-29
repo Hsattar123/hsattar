@@ -4,20 +4,197 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>fomo intern desk</title>
+  <meta name="description" content="The fomo intern desk: team schedules, coverage and reimbursements for the fomo intern team. Built by Hammaad Sattar.">
   <meta name="robots" content="noindex">
-  <meta http-equiv="refresh" content="0; url=https://claude.ai/artifact/YJJ2GNT1wstZJho5kPwLz5">
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;800&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
   <style>
-    body { margin: 0; min-height: 100vh; display: grid; place-items: center; padding: 16px; background: #0a091e radial-gradient(900px 480px at 50% -160px, rgba(107,107,176,.45), transparent 70%); color: #eef0fd; font-family: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif; text-align: center; }
-    img { width: 88px; height: auto; display: block; margin: 0 auto 14px; }
-    b { font-size: 2.4rem; font-weight: 800; letter-spacing: -0.045em; }
-    a { color: #9895f5; }
+    :root {
+      --bg: #0a091e;
+      --surface: #14132f;
+      --line: #26254d;
+      --line-2: #37366e;
+      --ink: #eef0fd;
+      --muted: #a0a2cf;
+      --dim: #6e70a3;
+      --accent: #9895f5;
+      --gain: #4fe3a4;
+      --amber: #ffc861;
+      --grad: linear-gradient(180deg, #6b6bb0 0%, #3a3f90 45%, #151132 100%);
+      --sans: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+      --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+      color-scheme: dark;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; color: var(--ink); font: 16px/1.6 var(--sans);
+      background: radial-gradient(1100px 560px at 50% -200px, rgba(107, 107, 176, .42), transparent 70%), var(--bg);
+    }
+    .wrap { max-width: 1120px; margin: 0 auto; padding-inline: 20px; }
+    a { color: var(--accent); }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+    h1, h2, h3 { margin: 0; letter-spacing: -0.03em; text-wrap: balance; }
+
+    header { padding-block: 22px; }
+    header .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+    .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--ink); }
+    .tile { width: 42px; height: 42px; border-radius: 11px; background: var(--bg); border: 1px solid var(--line-2); display: grid; place-items: center; }
+    .tile img { width: 30px; height: auto; display: block; }
+    .brand b { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.045em; }
+    .brand span { color: var(--muted); font-weight: 600; font-size: .95rem; }
+    .back { color: var(--muted); text-decoration: none; font-size: .92rem; }
+    .back:hover { color: var(--ink); }
+
+    .hero { padding-block: 40px 28px; display: grid; gap: 18px; justify-items: start; }
+    .eyebrow { font-family: var(--mono); font-size: .8rem; letter-spacing: .04em; color: var(--accent); }
+    .hero h1 { font-size: clamp(2.2rem, 6.5vw, 4rem); font-weight: 800; line-height: 1.02; letter-spacing: -0.05em; max-width: 16ch; }
+    .hero p { margin: 0; color: var(--muted); font-size: 1.1rem; max-width: 58ch; }
+    .cta { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 6px; }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; border-radius: 12px; font-weight: 700; text-decoration: none; border: 1px solid var(--line-2); color: var(--ink); background: var(--surface); }
+    .btn.primary { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+    .btn:hover { filter: brightness(1.08); }
+    .note { font-size: .88rem; color: var(--dim); margin: 0; }
+
+    .shot { border-radius: 16px; border: 1px solid var(--line-2); overflow: hidden; background: var(--surface); box-shadow: 0 30px 80px rgba(0, 0, 0, .45); }
+    .shot img { display: block; width: 100%; height: auto; }
+    .frame { padding: 10px; border-radius: 22px; background: var(--grad); }
+    .frame .shot { border-color: rgba(233, 237, 253, .12); }
+
+    .stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-block: 36px 8px; }
+    .stat { border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; background: var(--surface); }
+    .stat b { display: block; font-family: var(--mono); font-size: 1.3rem; font-weight: 500; }
+    .stat span { color: var(--muted); font-size: .88rem; }
+    @media (max-width: 760px) { .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+    section.feature { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 36px; align-items: center; padding-block: 48px; border-top: 1px solid var(--line); }
+    section.feature.flip { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
+    section.feature.flip .copy { order: 2; }
+    @media (max-width: 860px) { section.feature, section.feature.flip { grid-template-columns: minmax(0, 1fr); gap: 20px; } section.feature.flip .copy { order: 0; } }
+    .copy h2 { font-size: clamp(1.5rem, 3.4vw, 2.1rem); font-weight: 800; }
+    .copy p { color: var(--muted); margin: 12px 0 0; }
+    .copy ul { margin: 16px 0 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+    .copy li { padding-left: 26px; position: relative; }
+    .copy li::before { content: ""; position: absolute; left: 4px; top: .6em; width: 9px; height: 9px; border-radius: 3px; background: var(--accent); }
+    .stack { display: grid; gap: 14px; }
+
+    .access { border: 1px solid var(--line-2); border-radius: 20px; padding: 28px; margin-block: 48px; background: linear-gradient(135deg, rgba(152, 149, 245, .12), transparent 60%), var(--surface); display: grid; gap: 18px; }
+    .access h2 { font-size: 1.6rem; font-weight: 800; }
+    .steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+    @media (max-width: 760px) { .steps { grid-template-columns: minmax(0, 1fr); } }
+    .step { border: 1px solid var(--line); border-radius: 14px; padding: 16px; background: var(--bg); }
+    .step .n { font-family: var(--mono); color: var(--accent); font-size: .8rem; }
+    .step h3 { font-size: 1.05rem; margin-top: 4px; letter-spacing: -0.02em; }
+    .step p { margin: 6px 0 0; color: var(--muted); font-size: .93rem; }
+
+    footer { border-top: 1px solid var(--line); padding-block: 26px 40px; color: var(--dim); font-size: .88rem; }
+    footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
   </style>
 </head>
 <body>
-  <div>
-    <img src="fomo-mark.png" alt=""><b>fomo</b>
-    <p>Opening the intern desk… <a href="https://claude.ai/artifact/YJJ2GNT1wstZJho5kPwLz5">Tap here if it doesn't open</a>.</p>
-  </div>
+  <header>
+    <div class="wrap">
+      <a class="brand" href="/" aria-label="Back to hammaadsattar.com">
+        <span class="tile"><img src="fomo-mark.png" alt=""></span>
+        <b>fomo</b><span>intern desk</span>
+      </a>
+      <a class="back" href="/">← hammaadsattar.com</a>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <span class="eyebrow">Built for the fomo intern team</span>
+      <h1>an intern desk for the rest of us</h1>
+      <p>One place for every intern's schedule, live office coverage and reimbursement requests, with approvals and exports for the intern manager. Designed and built by Hammaad Sattar.</p>
+      <div class="cta">
+        <a class="btn primary" href="https://claude.ai/artifact/YJJ2GNT1wstZJho5kPwLz5">Open the live desk →</a>
+        <a class="btn" href="#access">How to get access</a>
+      </div>
+      <p class="note">The live desk opens in Claude. Sign in with the email address Hammaad invited.</p>
+    </section>
+
+    <div class="frame"><div class="shot"><img src="img/dash-overview.jpg" alt="The dash: ticker, on-shift count, team hours, pending and approved reimbursements, today's timeline and the hours leaderboard" width="1920" height="1350"></div></div>
+
+    <div class="stats">
+      <div class="stat"><b>3 tabs</b><span>Dash, My schedule, Reimbursements</span></div>
+      <div class="stat"><b>Live</b><span>Updates for everyone the moment an intern saves</span></div>
+      <div class="stat"><b>12 wks</b><span>Book repeating shifts up to 12 weeks out</span></div>
+      <div class="stat"><b>.csv</b><span>Schedule and expense exports for payroll</span></div>
+    </div>
+
+    <section class="feature">
+      <div class="copy">
+        <span class="eyebrow">01 · The dash</span>
+        <h2>See the whole team at a glance</h2>
+        <p>The first thing you see is who is working, how many hours the team is putting in, and what money is waiting on a decision.</p>
+        <ul>
+          <li>A trading-style ticker with every intern's weekly hours and change vs last week</li>
+          <li>Today's live floor: a timeline of who's on, with a line for right now</li>
+          <li>A leaderboard of hours this week, up or down on last week</li>
+          <li>A full weekly schedule you can page back and forward through</li>
+        </ul>
+      </div>
+      <div class="shot"><img src="img/dash-week.jpg" alt="Weekly team schedule showing each intern's shifts by day, in office or remote" loading="lazy"></div>
+    </section>
+
+    <section class="feature flip">
+      <div class="copy">
+        <span class="eyebrow">02 · Coverage</span>
+        <h2>Spot the gaps before they happen</h2>
+        <p>A heatmap shows how many interns are on shift for every hour of the week, and calls out weekday hours between 10a and 5p with nobody scheduled.</p>
+      </div>
+      <div class="shot"><img src="img/dash-coverage.jpg" alt="Coverage heatmap of interns on shift per hour for each day of the week" loading="lazy"></div>
+    </section>
+
+    <section class="feature">
+      <div class="copy">
+        <span class="eyebrow">03 · Scheduling</span>
+        <h2>Interns book their own shifts in seconds</h2>
+        <p>Each intern picks their days, hours and whether they're in office or remote, then repeats it for as many weeks as they need.</p>
+        <ul>
+          <li>Pick several days at once and repeat for up to 12 weeks</li>
+          <li>Preview the number of shifts and hours before saving</li>
+          <li>Copy this week's shifts into next week with one tap</li>
+          <li>Duplicate shifts are skipped automatically</li>
+        </ul>
+      </div>
+      <div class="shot"><img src="img/dash-schedule.jpg" alt="The add shifts form with Monday, Wednesday and Friday selected, 10am to 4pm, repeating for 8 weeks" loading="lazy"></div>
+    </section>
+
+    <section class="feature flip">
+      <div class="copy">
+        <span class="eyebrow">04 · Reimbursements</span>
+        <h2>Requests, approvals and exports in one flow</h2>
+        <p>Interns submit what they spent with a receipt link. The desk owner approves or rejects each one, and can export everything as a spreadsheet.</p>
+        <ul>
+          <li>Interns only see their own requests</li>
+          <li>Pending, approved and rejected statuses, with undo</li>
+          <li>One-click CSV export of requests and the full schedule</li>
+          <li>A pinned note for announcements to the whole team</li>
+        </ul>
+      </div>
+      <div class="shot"><img src="img/dash-expenses.jpg" alt="Reimbursement request form next to a table of requests with pending and approved statuses" loading="lazy"></div>
+    </section>
+
+    <section class="access" id="access">
+      <div>
+        <span class="eyebrow">Getting in</span>
+        <h2>How to open the live desk</h2>
+      </div>
+      <div class="steps">
+        <div class="step"><span class="n">Step 1</span><h3>Get an invite</h3><p>Ask Hammaad to add your email to the desk. Managers and interns are invited as Editors so they can save.</p></div>
+        <div class="step"><span class="n">Step 2</span><h3>Sign in to Claude</h3><p>Use the same email the invite went to. A free Claude account works.</p></div>
+        <div class="step"><span class="n">Step 3</span><h3>Open the desk</h3><p>Tap <a href="https://claude.ai/artifact/YJJ2GNT1wstZJho5kPwLz5">Open the live desk</a>. Everything you save shows up for the team instantly.</p></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span>Screenshots show example data. Real schedules and requests live only in the private desk.</span>
+      <span>Built by <a href="/">Hammaad Sattar</a> · intern project, not an official fomo product</span>
+    </div>
+  </footer>
 </body>
 </html>
