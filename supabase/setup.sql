@@ -58,6 +58,11 @@ end $$;
 revoke all on schema private from anon, authenticated;
 
 -- ---------- who can do what (row level security) ----------
+grant usage on schema public to anon;
+grant select, insert, delete on public.shifts   to anon;
+grant select, insert, delete on public.expenses to anon;
+grant select                 on public.board    to anon;
+
 alter table public.shifts   enable row level security;
 alter table public.expenses enable row level security;
 alter table public.board    enable row level security;
