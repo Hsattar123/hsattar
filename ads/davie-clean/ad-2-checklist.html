@@ -1,0 +1,99 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="shared.css">
+<style>
+  body { background: var(--green); }
+  .logo { color: #fff; }
+  .logo .sub { color: var(--gold); }
+  .kicker {
+    margin-top: 40px;
+    padding: 10px 26px;
+    border-radius: 40px;
+    border: 2px solid var(--gold);
+    color: var(--gold);
+    font-weight: 700; font-size: 22px; letter-spacing: 3px;
+  }
+  .headline { color: #fff; font-size: 106px; margin-top: 24px; }
+  .headline em { font-style: normal; color: var(--gold); }
+
+  .grid {
+    margin-top: 48px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+  }
+  .room {
+    background: var(--paper);
+    border-radius: 30px;
+    padding: 38px 36px 40px;
+  }
+  .room h3 {
+    display: flex; align-items: center; gap: 14px;
+    font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 32px;
+    color: var(--green); text-transform: uppercase; letter-spacing: -0.5px;
+  }
+  .room h3 span {
+    width: 52px; height: 52px; border-radius: 16px; background: var(--sage);
+    display: grid; place-items: center; font-size: 28px;
+  }
+  .room ul { list-style: none; margin-top: 20px; display: grid; gap: 16px; }
+  .room li {
+    display: flex; align-items: center; gap: 12px;
+    font-size: 27px; font-weight: 500; color: var(--ink);
+  }
+  .room li svg { width: 26px; height: 26px; flex: none; }
+
+  .cta { margin-top: auto; background: var(--gold); color: var(--green); box-shadow: 0 18px 40px rgba(0,0,0,0.3); }
+  .area { color: #b9cbc2; }
+</style>
+</head>
+<body>
+<div class="ad">
+  <div class="logo"><div class="name">Davie Clean</div><div class="sub">CLEANING CO.</div></div>
+
+  <div class="kicker">INCLUDED IN EVERY CLEAN</div>
+  <h1 class="headline">Every room.<br><em>Every detail.</em></h1>
+
+  <div class="grid">
+    <div class="room">
+      <h3><span>🍳</span>Kitchen</h3>
+      <ul>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="#c8a96a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>Counters &amp; backsplash</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="#c8a96a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>Stovetop &amp; appliances</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="#c8a96a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>Sink polished</li>
+      </ul>
+    </div>
+    <div class="room">
+      <h3><span>🛁</span>Bathrooms</h3>
+      <ul>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="#c8a96a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>Showers &amp; tubs</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="#c8a96a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>Toilets sanitized</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="#c8a96a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>Mirrors streak-free</li>
+      </ul>
+    </div>
+    <div class="room">
+      <h3><span>🛏️</span>Bedrooms</h3>
+      <ul>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="#c8a96a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>Beds made</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="#c8a96a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>Surfaces dusted</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="#c8a96a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>Floors vacuumed</li>
+      </ul>
+    </div>
+    <div class="room">
+      <h3><span>🛋️</span>Living</h3>
+      <ul>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="#c8a96a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>Floors mopped</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="#c8a96a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>Baseboards wiped</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="#c8a96a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>Trash taken out</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="cta">Get a Free Quote <svg viewBox="0 0 24 24" fill="none" stroke="#1d3b32" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+  <div class="area">Trusted &amp; Insured · 5-Star Rated · Davie, FL &amp; nearby</div>
+</div>
+</body>
+</html>

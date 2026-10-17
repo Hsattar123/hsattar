@@ -1,0 +1,111 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="shared.css">
+<style>
+  .headline { font-size: 116px; margin-top: 44px; }
+  .headline em { font-style: normal; color: var(--gold); }
+  .subhead { margin-top: 22px; }
+
+  .card {
+    margin-top: 44px;
+    width: 100%;
+    background: var(--paper);
+    border-radius: 36px;
+    padding: 40px 44px 44px;
+    box-shadow: 0 30px 70px rgba(29, 59, 50, 0.14);
+    position: relative;
+  }
+
+  .week { display: flex; gap: 12px; }
+  .day {
+    flex: 1;
+    height: 118px;
+    border-radius: 20px;
+    background: #f1eee6;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-weight: 700;
+    color: #9aa39f;
+    font-size: 22px;
+  }
+  .day b { font-family: 'Archivo', sans-serif; font-size: 34px; color: #b4bbb7; }
+  .day.sat {
+    flex: 1.5;
+    background: var(--green);
+    color: #cfe0d6;
+    transform: scale(1.08);
+    box-shadow: 0 14px 30px rgba(29, 59, 50, 0.35);
+  }
+  .day.sat b { color: #fff; }
+  .day.sat span { color: var(--gold); font-size: 20px; letter-spacing: 1px; }
+
+  .todo { margin-top: 38px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px 36px; }
+  .todo div {
+    display: flex; align-items: center; gap: 16px;
+    font-size: 30px; font-weight: 500; color: #8c9792;
+    text-decoration: line-through; text-decoration-color: var(--gold); text-decoration-thickness: 3px;
+  }
+  .todo i {
+    width: 40px; height: 40px; border-radius: 12px; background: var(--sage);
+    display: grid; place-items: center; flex: none;
+  }
+  .todo svg { width: 24px; height: 24px; }
+
+  .stamp {
+    position: absolute;
+    right: -18px; bottom: -34px;
+    width: 176px; height: 176px; border-radius: 50%;
+    background: var(--gold);
+    color: var(--green);
+    display: grid; place-items: center; text-align: center;
+    font-family: 'Archivo', sans-serif; font-weight: 900; font-size: 27px; line-height: 1.05;
+    transform: rotate(-12deg);
+    box-shadow: 0 12px 26px rgba(0,0,0,0.18);
+  }
+
+  .trust { margin-top: auto; }
+  .cta { margin-top: 36px; }
+</style>
+</head>
+<body>
+<div class="ad">
+  <div class="logo"><div class="name">Davie Clean</div><div class="sub">CLEANING CO.</div></div>
+
+  <h1 class="headline">Take your<br><em>Saturday</em> back.</h1>
+  <p class="subhead">We clean. You do literally anything else.</p>
+
+  <div class="card">
+    <div class="week">
+      <div class="day">MON<b>·</b></div>
+      <div class="day">TUE<b>·</b></div>
+      <div class="day">WED<b>·</b></div>
+      <div class="day">THU<b>·</b></div>
+      <div class="day">FRI<b>·</b></div>
+      <div class="day sat">SAT<b>FREE</b><span>☀ ALL DAY</span></div>
+      <div class="day">SUN<b>·</b></div>
+    </div>
+    <div class="todo">
+      <div><i><svg viewBox="0 0 24 24" fill="none" stroke="#1d3b32" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg></i>Scrub bathrooms</div>
+      <div><i><svg viewBox="0 0 24 24" fill="none" stroke="#1d3b32" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg></i>Mop all floors</div>
+      <div><i><svg viewBox="0 0 24 24" fill="none" stroke="#1d3b32" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg></i>Deep-clean kitchen</div>
+      <div><i><svg viewBox="0 0 24 24" fill="none" stroke="#1d3b32" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg></i>Dust everything</div>
+    </div>
+    <div class="stamp">DONE<br>FOR<br>YOU</div>
+  </div>
+
+  <div class="trust">
+    <div class="item"><svg viewBox="0 0 24 24" fill="none" stroke="#1d3b32" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3l8 3v6c0 4.5-3.4 8.2-8 9-4.6-.8-8-4.5-8-9V6l8-3z"/><path d="M8.5 12l2.5 2.5 4.5-5" stroke-linecap="round"/></svg>Trusted &amp;<br>Insured</div>
+    <div class="item"><svg viewBox="0 0 24 24" fill="none" stroke="#1d3b32" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9L12 3z"/></svg>5-Star<br>Rated</div>
+    <div class="item"><svg viewBox="0 0 24 24" fill="none" stroke="#1d3b32" stroke-width="1.8" stroke-linecap="round"><rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>Flexible<br>Scheduling</div>
+  </div>
+
+  <div class="cta">Get a Free Quote <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+  <div class="area">Serving Davie, FL &amp; nearby cities</div>
+</div>
+</body>
+</html>

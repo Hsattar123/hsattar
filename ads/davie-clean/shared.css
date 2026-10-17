@@ -1,0 +1,110 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=block');
+
+:root {
+  --green: #1d3b32;
+  --green-2: #2c5246;
+  --cream: #f5f1e8;
+  --paper: #fffdf8;
+  --sage: #dfe8df;
+  --gold: #c8a96a;
+  --ink: #1b2622;
+  --muted: #5d6b65;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body { width: 1080px; height: 1350px; }
+
+body {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: 'Inter', sans-serif;
+  overflow: hidden;
+}
+
+.ad {
+  position: relative;
+  width: 1080px;
+  height: 1350px;
+  padding: 64px 72px 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.logo { text-align: center; color: var(--green); }
+.logo .name {
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-size: 52px;
+  letter-spacing: -0.5px;
+  line-height: 1;
+}
+.logo .sub {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 4px;
+  margin-top: 8px;
+}
+
+.headline {
+  font-family: 'Archivo', sans-serif;
+  font-weight: 900;
+  color: var(--green);
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: -2px;
+  line-height: 0.95;
+}
+
+.subhead {
+  font-size: 30px;
+  color: var(--muted);
+  text-align: center;
+  font-weight: 500;
+}
+
+.trust {
+  display: flex;
+  justify-content: center;
+  gap: 0;
+  width: 100%;
+}
+.trust .item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 30px;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--green);
+  line-height: 1.15;
+}
+.trust .item + .item { border-left: 2px solid rgba(29, 59, 50, 0.15); }
+.trust svg { width: 38px; height: 38px; flex: none; }
+
+.cta {
+  width: 100%;
+  height: 112px;
+  border-radius: 56px;
+  background: var(--green);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  font-family: 'Archivo', sans-serif;
+  font-weight: 700;
+  font-size: 40px;
+  box-shadow: 0 18px 40px rgba(29, 59, 50, 0.28);
+}
+.cta svg { width: 40px; height: 40px; }
+
+.area {
+  font-size: 22px;
+  color: var(--muted);
+  font-weight: 500;
+  margin-top: 18px;
+  text-align: center;
+}
